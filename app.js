@@ -26,7 +26,7 @@ apiRouter.post('/sayHello', function(req, res) {
       ]
     }
   };
-
+  console.log("TCL: responseBody", responseBody)
   res.status(200).send(responseBody);
 });
 

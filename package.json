@@ -19,7 +19,10 @@
   "homepage": "https://github.com/Jinho1011/meal-bot-skill-server#readme",
   "dependencies": {
     "body-parser": "^1.19.0",
+    "cheerio": "^1.0.0-rc.3",
     "express": "^4.16.4",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "python-shell": "^1.0.7",
+    "request": "^2.88.0"
   }
 }

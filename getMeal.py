@@ -50,5 +50,4 @@ if __name__ == "__main__":
     date_query = sys.argv[0] + '월 ' + sys.argv[1] + '일 식단입니다.'
     # date_query = '5월 2일 식단입니다.'
     TARGET_URL = find_href_by_date(date_query)
-    print(get_meal(TARGET_URL)) 
-    return 'hello'
+    return get_meal(TARGET_URL) 

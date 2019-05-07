@@ -1,3 +1,5 @@
+# -*- coding:utf-8 -*-
+
 import sys
 import requests
 from bs4 import BeautifulSoup
@@ -39,15 +41,23 @@ def get_meal(URL):
     breakfast = breakfast.split("조식")
     breakfast = breakfast[1]
 
-    breakfast = splitStr(breakfast)
-    lunch = splitStr(lunch)
-    dinner = splitStr(dinner)
+    breakfast = splitStr(breakfast).rstrip('\n')
+    lunch = splitStr(lunch).rstrip('\n')
+    dinner = splitStr(dinner).rstrip('\n')
+    result = breakfast + ',' + lunch + ',' + dinner
 
-    return breakfast
+    print(result)
 
 
 if __name__ == "__main__":
-    date_query = sys.argv[0] + '월 ' + sys.argv[1] + '일 식단입니다.'
+    date_query = sys.argv[2] + '월 ' + sys.argv[1] + '일 식단입니다.'
+
+    # date_txt = open('date_query.txt', mode='wt', encoding='utf-8')
+    # date_txt.write(date_query)
+
+    # argv_txt = open('argv_txt.txt', mode='wt', encoding='utf-8')
+    # argv_txt.write(sys.argv[2])
+
     # date_query = '5월 2일 식단입니다.'
     TARGET_URL = find_href_by_date(date_query)
-    return get_meal(TARGET_URL) 
+    get_meal(TARGET_URL)

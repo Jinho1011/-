@@ -9,42 +9,47 @@ const apiRouter = express.Router();
 app.use(logger("dev", {}));
 app.use(bodyParser.json());
 app.use(
-  bodyParser.urlencoded({
-    extended: true
-  })
+	bodyParser.urlencoded({
+		extended: true
+	})
 );
 
 app.use("/api", apiRouter);
 
-apiRouter.post("/sayHello", function(req, res) {
-  const responseBody = {
-    version: "2.0",
-    template: {
-      outputs: [
-        {
-          simpleText: {
-            text: "hello I'm Ryan"
-          }
-        }
-      ]
-    }
-  };
+apiRouter.post("/meal", function(req, res) {
+	const responseBody = {
+		version: "2.0",
+		template: {
+			outputs: [
+				{
+					simpleText: {
+						text: "hello I'm Ryan"
+					}
+				}
+			]
+		}
+	};
 
-  res.status(200).send(responseBody);
+	res.status(200).send(responseBody);
 });
 
 app.listen(80, function() {
-  console.log("listening on port 80");
+	console.log("listening on port 80");
 
-  var options = {
-    mode: "text",
-    pythonPath: "",
-    pythonOptions: ["-u"],
-    scriptPath: "",
-    args: [5, 3]
-  };
+	var today = new Date();
+	var dd = today.getDate();
+	var mm = today.getMonth() + 1;
 
-  ps.PythonShell.run('getMeal.py', options, function(err, results) {
-    console.log("results: %j", results);
-  });
+	var options = {
+		mode: "text",
+		pythonPath: "",
+		pythonOptions: ["-u"],
+		scriptPath: "",
+		args: [dd, mm]
+	};
+
+	ps.PythonShell.run("getMeal.py", options, function(err, results) {
+		console.log("TCL: results", results);
+		console.error(err);
+	});
 });

@@ -3,6 +3,7 @@ const app = express();
 const logger = require("morgan");
 const bodyParser = require("body-parser");
 const ps = require("python-shell");
+const fs = require("fs");
 
 const apiRouter = express.Router();
 
@@ -49,7 +50,7 @@ app.listen(80, function() {
 	};
 
 	ps.PythonShell.run("getMeal.py", options, function(err, results) {
-		console.log("TCL: results", results);
+		console.log("TCL: results", results)
 		console.error(err);
 	});
 });

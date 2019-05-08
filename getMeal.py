@@ -45,18 +45,19 @@ def get_meal(URL):
     lunch = splitStr(lunch).rstrip('\n')
     dinner = splitStr(dinner).rstrip('\n')
     result = breakfast + ',' + lunch + ',' + dinner
-
+    res_txt = open('res_txt.txt', mode='wt', encoding='utf-8')
+    res_txt.write(result)
     print(result)
 
 
 if __name__ == "__main__":
-    date_query = sys.argv[2] + '월 ' + sys.argv[1] + '일 식단입니다.'
+    date_query = sys.argv[1] + '월 ' + sys.argv[2] + '일 식단입니다.'
 
     # date_txt = open('date_query.txt', mode='wt', encoding='utf-8')
     # date_txt.write(date_query)
 
     # argv_txt = open('argv_txt.txt', mode='wt', encoding='utf-8')
-    # argv_txt.write(sys.argv[2])
+    # argv_txt.write(sys.argv[1])
 
     # date_query = '5월 2일 식단입니다.'
     TARGET_URL = find_href_by_date(date_query)

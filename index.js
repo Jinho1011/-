@@ -4,16 +4,17 @@ const logger = require("morgan");
 const bodyParser = require("body-parser");
 const { exec } = require("child_process");
 const fs = require("fs");
+const schedule = require("node-schedule");
 
 const apiRouter = express.Router();
 
 const mealObj = {
-	today : {
+	today: {
 		breakfast: "",
 		lunch: "",
 		dinner: ""
 	},
-	tommorow : {
+	tommorow: {
 		breakfast: "",
 		lunch: "",
 		dinner: ""
@@ -63,23 +64,34 @@ apiRouter.post("/meal/dinner", function(req, res) {
 	res.status(200).send(responseBody);
 });
 
-app.listen(80, function() {
-	console.log("listening on port 80");
-
-	var today = new Date();
-	var dd = today.getDate();
-	var mm = today.getMonth() + 1;
-
-	exec_query = `python getMeal.py ${mm} ${dd}`;
-
+const getMealFromPy = () => {
+	exec_query = `python getMeal.py`;
 	exec(exec_query, function(err, stdout, stderr) {});
 
-	fs.readFile("res_txt.txt", "utf-8", (err, data) => {
-		console.log("TCL: data", data);
+	fs.readFile("today.txt", "utf-8", (err, data) => {
+		// console.error(err);
+		// console.log("TCL: data", data);
 		mealArr = data.split(",");
 		mealObj.today.breakfast = mealArr[0];
 		mealObj.today.lunch = mealArr[1];
 		mealObj.today.dinner = mealArr[2];
-		console.log("TCL: mealObj", mealObj);
 	});
+
+	fs.readFile("tommorow.txt", "utf-8", (err, data) => {
+		// console.error(err);
+		// console.log("TCL: data", data);
+		mealArr = data.split(",");
+		mealObj.tommorow.breakfast = mealArr[0];
+		mealObj.tommorow.lunch = mealArr[1];
+		mealObj.tommorow.dinner = mealArr[2];
+	});
+};
+
+var scheduler = schedule.scheduleJob("0 30 0 * * 1-7", function() {
+	getMealFromPy()
+});
+
+app.listen(80, function() {
+	console.log("listening on port 80");
+	getMealFromPy()
 });

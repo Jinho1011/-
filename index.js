@@ -26,7 +26,9 @@ app.use("/api", apiRouter);
 apiRouter.post("/meal/breakfast", function(req, res) {
 	const responseBody = {
 		version: "2.0",
-		data: mealObj.breakfast
+		data: {
+			menu: mealObj.breakfast
+		}
 	};
 
 	res.status(200).send(responseBody);
@@ -35,7 +37,9 @@ apiRouter.post("/meal/breakfast", function(req, res) {
 apiRouter.post("/meal/lunch", function(req, res) {
 	const responseBody = {
 		version: "2.0",
-		data: mealObj.lunch
+		data: {
+			menu: mealObj.lunch
+		}
 	};
 
 	res.status(200).send(responseBody);
@@ -44,7 +48,9 @@ apiRouter.post("/meal/lunch", function(req, res) {
 apiRouter.post("/meal/dinner", function(req, res) {
 	const responseBody = {
 		version: "2.0",
-		data: mealObj.dinner
+		data: {
+			menu: mealObj.dinner
+		}
 	};
 
 	res.status(200).send(responseBody);

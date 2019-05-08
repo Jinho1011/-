@@ -23,20 +23,28 @@ app.use(
 
 app.use("/api", apiRouter);
 
-apiRouter.post("/meal", function(req, res) {
+apiRouter.post("/meal/breakfast", function(req, res) {
 	const responseBody = {
 		version: "2.0",
-		template: {
-			outputs: [
-				{
-					meal: {
-						breakfast: mealObj.breakfast,
-						lunch: mealObj.lunch,
-						dinner: mealObj.dinner
-					}
-				}
-			]
-		}
+		data: mealObj.breakfast
+	};
+
+	res.status(200).send(responseBody);
+});
+
+apiRouter.post("/meal/lunch", function(req, res) {
+	const responseBody = {
+		version: "2.0",
+		data: mealObj.lunch
+	};
+
+	res.status(200).send(responseBody);
+});
+
+apiRouter.post("/meal/dinner", function(req, res) {
+	const responseBody = {
+		version: "2.0",
+		data: mealObj.dinner
 	};
 
 	res.status(200).send(responseBody);

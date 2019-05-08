@@ -59,10 +59,6 @@ def getTommorow():
 
 def main(date, fs_name) :
     query = str(date[0]) + '월 ' + str(date[1]) + '일 식단입니다.'
-
-    query_txt = open('query_txt.txt', mode='wt', encoding='utf-8')
-    query_txt.write(query)
-
     target_url = find_href_by_date(query)
     meal = get_meal(target_url)
     file_name = fs_name+'.txt'
@@ -72,6 +68,9 @@ def main(date, fs_name) :
 if __name__ == "__main__":
     todayDate = getToday()
     tommorowDate = getTommorow()
+
+    tommorowDate_txt = open('query_txt.txt', mode='wt', encoding='utf-8')
+    tommorowDate_txt.write(tommorowDate)
 
     main(todayDate, 'today')
     main(tommorowDate, 'tommorow')

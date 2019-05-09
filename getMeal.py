@@ -93,7 +93,7 @@ if __name__ == "__main__":
     tommorow_meal = get_meal(TOMMOROW_URL)
 
     today_txt = open('today_meal.txt', 'wt')
-    today_txt.write(today_meal.encode('euc-kr')))
+    today_txt.write(today_meal.encode('euc-kr'))
     today_txt.close()
 
     tommorow_txt = open('tommorow_meal.txt', 'wt')

@@ -18,8 +18,6 @@ def find_href_by_date(date_query):
     soup = BeautifulSoup(html, 'html.parser')
     titles = soup.find_all("a", "fl")
 
-    print(type(titles[1].text))
-    print(type(date_query))
 
     for i in titles:
         if date_query in i.text :
@@ -85,8 +83,8 @@ if __name__ == "__main__":
     todayDate = getToday()
     tommorowDate = getTommorow()
 
-    today_date_query = str(todayDate[0]) + '월 ' + str(todayDate[1]) + '일 식단입니다.'
-    tmr_date_query = str(tommorowDate[0]) + '월 ' + str(tommorowDate[1]) + '일 식단입니다.'
+    today_date_query = str(todayDate[0]) + u'월 ' + str(todayDate[1]) + u'일 식단입니다.'
+    tmr_date_query = str(tommorowDate[0]) + u'월 ' + str(tommorowDate[1]) + u'일 식단입니다.'
 
     TODAY_URL = find_href_by_date(today_date_query)
     TOMMOROW_URL = find_href_by_date(tmr_date_query)

@@ -3,6 +3,7 @@
 import datetime
 import requests
 from bs4 import BeautifulSoup
+from operator import eq
 
 
 def splitStr(str):
@@ -18,7 +19,7 @@ def find_href_by_date(date_query):
     titles = soup.find_all("a", "fl")
 
     for i in titles:
-        if (i.text == date_query):
+        if (eq(i.text,date_query)):
             return i['href']
 
 

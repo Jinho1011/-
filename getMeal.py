@@ -97,5 +97,5 @@ if __name__ == "__main__":
     today_txt.close()
 
     tommorow_txt = open('tommorow_meal.txt', 'wt')
-    tommorow_txt.write(tommorow_meal.encode('euc-kr')))
+    tommorow_txt.write(tommorow_meal.encode('euc-kr'))
     tommorow_txt.close()

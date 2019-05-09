@@ -19,7 +19,7 @@ def find_href_by_date(date_query):
     titles = soup.find_all("a", "fl")
 
     for i in titles:    
-        if (eq(i.text, str(date_query)):
+        if (eq(i.text, str(date_query))):
             return i['href']
 
 

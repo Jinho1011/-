@@ -41,28 +41,28 @@ def get_meal(URL):
     d_res = [False]
 
     for i in mealList:
-        if "조식" in i:
+        if u"조식" in i:
             b_res[0] = True
             b_res.append(i)
-        if "중식" in i:
+        if u"중식" in i:
             l_res[0] = True
             l_res.append(i)
-        if "석식" in i:
+        if u"석식" in i:
             d_res[0] = True
             d_res.append(i)
 
     if b_res[0]:
         meal_b = b_res[1]
     else:
-        meal_b = '급식 정보를 찾을 수 없습니다'
+        meal_b = u'급식 정보를 찾을 수 없습니다'
     if l_res[0]:
         meal_l = l_res[1]
     else:
-        meal_l = '급식 정보를 찾을 수 없습니다'
+        meal_l = u'급식 정보를 찾을 수 없습니다'
     if d_res[0]:
         meal_d = d_res[1]
     else:
-        meal_d = '급식 정보를 찾을 수 없습니다'
+        meal_d = u'급식 정보를 찾을 수 없습니다'
 
     meal_res = splitStr(meal_b) + '|' + splitStr(meal_l) + \
         '|' + splitStr(meal_d)

@@ -23,29 +23,47 @@ def find_href_by_date(date_query):
 
 
 def get_meal(URL):
-    rawStr = ''
+    mealList = []
     req = requests.get(URL)
     html = req.text
     soup = BeautifulSoup(html, 'html.parser')
-    content = soup.find_all("div", "scConDoc")
+
+    content = soup.select('div.scConDoc p')
+
     for i in content:
-        rawStr += i.text
+        if(i.text):
+            mealList.append(i.text)
 
-    rawStr = rawStr.split("중식")
-    temp = rawStr[1].split("석식")
+    b_res = [False]
+    l_res = [False]
+    d_res = [False]
 
-    breakfast = rawStr[0]
-    lunch = temp[0]
-    dinner = temp[1]
+    for i in mealList:
+        if "조식" in i:
+            b_res[0] = True
+            b_res.append(i)
+        if "중식" in i:
+            l_res[0] = True
+            l_res.append(i)
+        if "석식" in i:
+            d_res[0] = True
+            d_res.append(i)
 
-    breakfast = breakfast.split("조식")
-    breakfast = breakfast[1]
+    if b_res[0]:
+        meal_b = b_res[1]
+    else:
+        meal_b = '급식 정보를 찾을 수 없습니다'
+    if l_res[0]:
+        meal_l = l_res[1]
+    else:
+        meal_l = '급식 정보를 찾을 수 없습니다'
+    if d_res[0]:
+        meal_d = d_res[1]
+    else:
+        meal_d = '급식 정보를 찾을 수 없습니다'
 
-    breakfast = splitStr(breakfast).rstrip('\n')
-    lunch = splitStr(lunch).rstrip('\n')
-    dinner = splitStr(dinner).rstrip('\n')
-
-    return breakfast + ',' + lunch + ',' + dinner
+    meal_res = splitStr(meal_b) + '|' + splitStr(meal_l) + '|' + splitStr(meal_d)
+    return meal_res
 
 
 def getToday():
@@ -57,45 +75,24 @@ def getTommorow():
     tommorow = datetime.date.today() + datetime.timedelta(days=1)
     return [tommorow.month, tommorow.day]
 
-def main(date, fs_name) :
-    query = str(date[0]) + '월 ' + str(date[1]) + '일 식단입니다.'
-    target_url = find_href_by_date(query)
-    meal = get_meal(target_url)
-    file_name = fs_name+'.txt'
-    meal_txt = open(file_name, mode='wt', encoding='utf-8')
-    meal_txt.write(meal)
 
 if __name__ == "__main__":
     todayDate = getToday()
     tommorowDate = getTommorow()
 
-    tommorowDate_txt = open('query_txt.txt', mode='wt', encoding='utf-8')
-    tommorowDate_txt.write(tommorowDate)
+    today_date_query = str(todayDate[0]) + '월 ' + str(todayDate[1]) + '일 식단입니다.'
+    tmr_date_query = str(tommorowDate[0]) + '월 ' + str(tommorowDate[1]) + '일 식단입니다.'
 
-    main(todayDate, 'today')
-    main(tommorowDate, 'tommorow')
+    TODAY_URL = find_href_by_date(today_date_query)
+    TOMMOROW_URL = find_href_by_date(tmr_date_query)
 
-    # today_date_query = todayDate[0] + '월 ' + todayDate[1] + '일 식단입니다.'
-    # tmr_date_query = tommorowDate[0] + '월 ' + tommorowDate[1] + '일 식단입니다.'
+    today_meal = get_meal(TODAY_URL)
+    tommorow_meal = get_meal(TOMMOROW_URL)
 
-    # TODAY_URL = find_href_by_date(today_date_query)
-    # TOMMOROW_URL = find_href_by_date(tmr_date_query)
+    today_txt = open('today_meal.txt', 'wt')
+    today_txt.write(today_meal)
+    today_txt.close()
 
-    # today_meal = get_meal(TODAY_URL)
-    # tommorow_meal = get_meal(TOMMOROW_URL)
-
-    # today_meal_txt = open('today_meal.txt', mode='wt', encoding='utf-8')
-    # today_meal_txt.write(today_meal)
-
-    # tommorow_meal_txt = open('tommorow_meal.txt', mode='wt', encoding='utf-8')
-    # tommorow_meal_txt.write(tommorow_meal)
-
-    # date_txt = open('date_query.txt', mode='wt', encoding='utf-8')
-    # date_txt.write(date_query)
-
-    # argv_txt = open('argv_txt.txt', mode='wt', encoding='utf-8')
-    # argv_txt.write(sys.argv[1])
-
-    # date_query = '5월 2일 식단입니다.'
-    # TARGET_URL = find_href_by_date(date_query)
-    # get_meal(TARGET_URL)
+    tommorow_txt = open('tommorow_meal.txt', 'wt')
+    tommorow_txt.write(tommorow_meal)
+    tommorow_txt.close()

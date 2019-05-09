@@ -31,67 +31,63 @@ app.use(
 
 app.use("/api", apiRouter);
 
-apiRouter.post("/meal/breakfast", function(req, res) {
+apiRouter.post("/meal/today", function(req, res) {
 	const responseBody = {
 		version: "2.0",
 		data: {
-			menu: mealObj.breakfast
+			breakfast: mealObj.today.breakfast,
+			lunch: mealObj.today.lunch,
+			dinner: mealObj.today.dinner
 		}
 	};
 
 	res.status(200).send(responseBody);
 });
 
-apiRouter.post("/meal/lunch", function(req, res) {
+apiRouter.post("/meal/tommorow", function(req, res) {
 	const responseBody = {
 		version: "2.0",
 		data: {
-			menu: mealObj.lunch
+			breakfast: mealObj.tommorow.breakfast,
+			lunch: mealObj.tommorow.lunch,
+			dinner: mealObj.tommorow.dinner
 		}
 	};
 
 	res.status(200).send(responseBody);
 });
 
-apiRouter.post("/meal/dinner", function(req, res) {
-	const responseBody = {
-		version: "2.0",
-		data: {
-			menu: mealObj.dinner
-		}
-	};
+const execPy =  async () => {
+	exec('python getMeal.py', function(err, stdout, stderr) {
+		saveData()
+	});
+};
 
-	res.status(200).send(responseBody);
-});
-
-const getMealFromPy = () => {
-	exec_query = `python getMeal.py`;
-	exec(exec_query, function(err, stdout, stderr) {});
-
-	fs.readFile("today.txt", "utf-8", (err, data) => {
-		// console.error(err);
-		// console.log("TCL: data", data);
-		mealArr = data.split(",");
+const saveData =  async () => {
+	fs.readFile("today_meal.txt", "utf-8", (err, data) => {
+		console.error(err);
+		console.log("TCL: data", data);
+		mealArr = data.split("|");
 		mealObj.today.breakfast = mealArr[0];
 		mealObj.today.lunch = mealArr[1];
 		mealObj.today.dinner = mealArr[2];
 	});
 
-	fs.readFile("tommorow.txt", "utf-8", (err, data) => {
-		// console.error(err);
-		// console.log("TCL: data", data);
-		mealArr = data.split(",");
+	fs.readFile("tommorow_meal.txt", "utf-8", (err, data) => {
+		console.error(err);
+		console.log("TCL: data", data);
+		mealArr = data.split("|");
 		mealObj.tommorow.breakfast = mealArr[0];
 		mealObj.tommorow.lunch = mealArr[1];
 		mealObj.tommorow.dinner = mealArr[2];
 	});
-};
+}
 
 var scheduler = schedule.scheduleJob("0 30 0 * * 1-7", function() {
-	getMealFromPy()
+	execPy()
 });
 
 app.listen(80, function() {
 	console.log("listening on port 80");
-	getMealFromPy()
+	execPy()
 });

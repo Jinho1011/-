@@ -19,7 +19,7 @@ def find_href_by_date(date_query):
     titles = soup.find_all("a", "fl")
 
     for i in titles:   
-        if i.text.encode('utf-8') == date_query.encode('utf-8'):
+        if i.text.encode('unicode') == date_query.encode('unicode'):
             return i['href']
 
 

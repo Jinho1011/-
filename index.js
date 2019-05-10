@@ -87,7 +87,7 @@ var scheduler = schedule.scheduleJob("0 30 0 * * 1-7", function() {
 	execPy()
 });
 
-app.listen(80, function() {
-	console.log("listening on port 80");
+app.listen(8080, function() {
+	console.log("listening on port 8080");
 	execPy()
 });
